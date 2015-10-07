@@ -17,6 +17,7 @@ class element {
 			}
 			$this->addAtributo($att,$valor);
 		}
+		if (!isset($this->tag)) throw new RuntimeException('No se definió el TAG');
 		self::$num_element++;
 		if (!isset($this->atributos['id'])) $this->atributos['id'] = $this->tag.'_'.self::$num_element;
 	}
