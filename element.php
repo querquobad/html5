@@ -7,6 +7,7 @@ class element {
 	static $num_element;
 	private $clases = array();
 	private $styles = array();
+	private $elementos = array();
 
 	function __construct($atts = array()) {
 		foreach($atts as $att => $valor) {
@@ -54,9 +55,14 @@ class element {
 			}
 		}
 		$retval .= '>';
-		//Aqui se deben renderear todos los que estan contenidos
+		foreach ($this->elementos as $elemento_actual) $retval .= $elemento_actual->render();
 		$retval .= '</'.$this->tag.'>';
 		return $retval;
+	}
+
+	public function addElement($element) {
+		if (!is_a($element,'element')) throw new RuntimeException('El elemento agregado no es un \'element\'');
+		$this->elementos[] = $element;
 	}
 }
 
