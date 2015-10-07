@@ -1,5 +1,7 @@
 <?php
 
+const SELF_CLOSE_ELEMENTS = array('meta','link');
+
 class element {
 	private $tag;
 	private $atributos = array();
@@ -7,6 +9,7 @@ class element {
 	private $clases = array();
 	private $styles = array();
 	private $elementos = array();
+	private $self_close = false;
 
 	function __construct($atts = array()) {
 		foreach($atts as $att => $valor) {
@@ -17,6 +20,7 @@ class element {
 			$this->addAtributo($att,$valor);
 		}
 		if (!isset($this->tag)) throw new RuntimeException('No se definió el TAG');
+		if (in_array($this->tag,SELF_CLOSE_ELEMENTS)) $this->self_close = true;
 		self::$num_element++;
 		if (!isset($this->atributos['id'])) $this->atributos['id'] = $this->tag.'_'.self::$num_element;
 	}
@@ -54,14 +58,18 @@ class element {
 				$retval .= ' '.$att.'="'.$valor.'"';
 			}
 		}
+		if ($this->self_close) $retval .= '/';
 		$retval .= '>';
-		foreach ($this->elementos as $elemento_actual) $retval .= $elemento_actual->render();
-		$retval .= '</'.$this->tag.'>';
+		if (!$this->self_close) {
+			foreach ($this->elementos as $elemento_actual) $retval .= $elemento_actual->render();
+			$retval .= '</'.$this->tag.'>';
+		}
 		return $retval;
 	}
 
 	public function addElement($element) {
 		if (!is_a($element,'element')) throw new RuntimeException('El elemento agregado no es un \'element\'');
+		if ($this->self_close) throw new RuntimeException('Este elemento no puede tener elementos anidados');
 		$this->elementos[] = $element;
 	}
 }
