@@ -13,11 +13,15 @@ class element {
 
 	function __construct($atts = array()) {
 		foreach($atts as $att => $valor) {
-			if ($att == 'tag') {
-				$this->tag = $valor;
-				continue;
+			if (is_a($valor,'element')) {
+				$this->addElement($valor);
+			} else {
+				if ($att === 'tag') { //Loose checking hace que un att => 0 califique aqui
+					$this->tag = $valor;
+					continue;
+				}
+				$this->addAtributo($att,$valor);
 			}
-			$this->addAtributo($att,$valor);
 		}
 		if (!isset($this->tag)) throw new RuntimeException('No se definió el TAG');
 		if (in_array($this->tag,SELF_CLOSE_ELEMENTS)) $this->self_close = true;
