@@ -10,12 +10,13 @@ class element {
 	private $styles = array();
 	private $elementos = array();
 	private $self_close = false;
+	private $texto = '';
 
 	function __construct($atts = array()) {
 		foreach($atts as $att => $valor) {
 			if (is_a($valor,'element')) {
 				$this->addElement($valor);
-			} else {
+			} else if (is_string($att)) {
 				if ($att === 'tag') { //Loose checking hace que un att => 0 califique aqui
 					$this->tag = $valor;
 					continue;
@@ -32,6 +33,7 @@ class element {
 	public function addAtributo($att,$valor) {
 		if ($att == 'class') $this->addClass($valor);
 		else if ($att == 'style') $this->addStyle($valor);
+		else if ($att == '_text') $this->addText($valor);
 		else {
 			if (array_key_exists($att,$this->atributos))
 				error_log("Sobreescribiendo el valor del atributo $att"); //throw new RuntimeException('Ese atributo ya existe');
@@ -65,6 +67,7 @@ class element {
 		if ($this->self_close) $retval .= '/';
 		$retval .= '>';
 		if (!$this->self_close) {
+			$retval .= htmlentities($this->texto);
 			foreach ($this->elementos as $elemento_actual) $retval .= $elemento_actual->render();
 			$retval .= '</'.$this->tag.'>';
 		}
@@ -75,6 +78,11 @@ class element {
 		if (!is_a($element,'element')) throw new RuntimeException('El elemento agregado no es un \'element\'');
 		if ($this->self_close) throw new RuntimeException('Este elemento no puede tener elementos anidados');
 		$this->elementos[] = $element;
+	}
+
+	public function addText($texto) {
+		if (!is_string($texto)) throw new RuntimeException('No se puede agregar un texto que no es un string');
+		$this->texto .= $texto;
 	}
 }
 
