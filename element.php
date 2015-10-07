@@ -64,6 +64,12 @@ class element {
 				$retval .= ' '.$att.'="'.$valor.'"';
 			}
 		}
+		$retval .= ' class="'.implode(' ',$this->clases).'"';
+		$retval .= ' style="';
+		foreach ($this->styles as $llave => $estilo_actual) {
+			$retval .= $llave.' : '.$estilo_actual.';';
+		}
+		$retval .= '"';
 		if ($this->self_close) $retval .= '/';
 		$retval .= '>';
 		if (!$this->self_close) {
