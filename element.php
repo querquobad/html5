@@ -3,7 +3,6 @@
 class element {
 	private $tag;
 	private $atributos = array();
-	private $id;
 	static $num_element;
 	private $clases = array();
 	private $styles = array();
