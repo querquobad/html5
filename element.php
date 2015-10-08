@@ -92,6 +92,15 @@ class element {
 		if (!is_string($texto)) throw new RuntimeException('No se puede agregar un texto que no es un string');
 		$this->texto .= $texto;
 	}
+
+	public function getElementByTag($tag) {
+		if (!is_string($tag)) throw new RuntimeException('El argumento de getElementByTag no es un string');
+		if ($this->tag === $tag) return $this;
+		foreach ($this->elementos as $elemento_actual) {
+			$busqueda = $elemento_actual->getElementByTag($tag);
+			if (is_a($busqueda,'element')) return $busqueda;
+		}
+	}
 }
 
 ?>
