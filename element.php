@@ -1,6 +1,6 @@
 <?php
 
-const SELF_CLOSE_ELEMENTS = array('meta','link');
+const SELF_CLOSE_ELEMENTS = array('meta','link','input');
 
 class element {
 	private $tag;
