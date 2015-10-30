@@ -101,6 +101,14 @@ class element {
 			if (is_a($busqueda,'element')) return $busqueda;
 		}
 	}
+	public function getElementByID($id) {
+		if (!is_string($id)) throw new RuntimeException('El argumento de getElementByCSS no es un string');
+		if ($this->atributos['id'] === $id) return $this;
+		foreach ($this->elementos as $elemento_actual) {
+			$busqueda = $elemento_actual->getElementByID($id);
+			if (is_a($busqueda,'element')) return $busqueda;
+		}
+	}
 }
 
 ?>
