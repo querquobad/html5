@@ -41,6 +41,11 @@ class element {
 		}
 	}
 
+	protected function getAtributo($at) {
+		if (!is_string($at)) throw new RuntimeException ('El parámetro de getAtributo no es un string');
+		if (isset($this->atributos[$at])) return $this->atributos[$at];
+	}
+
 	private function addClass($valor) {
 		if (is_string($valor)) $valor = explode(' ',$valor);
 		if (!is_array($valor)) throw new RuntimeException('El argumento de addClass no es un arreglo, o cadena delimitada por espacios');
