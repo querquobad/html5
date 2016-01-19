@@ -80,7 +80,16 @@ class element {
 		if ($this->self_close) $retval .= '/';
 		$retval .= '>';
 		if (!$this->self_close) {
-			$retval .= htmlentities($this->texto);
+			/*
+			 * Algunas versiones de php antes de la 5.6 no tienen este valor haciendo que htmlentities()
+			 * regrese un vacío con caracteres acentuados
+			 */
+			if (ini_get('default_charset') == "") ini_set('default_charset','UTF-8');
+			if (htmlentities($this->texto,ENT_HTML5) == "") {
+				$retval .= htmlentities(utf8_encode($this->texto),ENT_HTML5);
+			} else {
+				$retval .= htmlentities($this->texto,ENT_HTML5);
+			}
 			foreach ($this->elementos as $elemento_actual) $retval .= $elemento_actual->render();
 			$retval .= '</'.$this->tag.'>';
 		}
@@ -93,7 +102,7 @@ class element {
 		$this->elementos[] = $element;
 	}
 
-	public function addText($texto) {
+	private function addText($texto) {// OJO para agregar texto invoca $obj->addAtributo('_text','El texto a ser agregado')
 		if (!is_string($texto)) throw new RuntimeException('No se puede agregar un texto que no es un string');
 		$this->texto .= $texto;
 	}
@@ -107,7 +116,7 @@ class element {
 		}
 	}
 	public function getElementByID($id) {
-		if (!is_string($id)) throw new RuntimeException('El argumento de getElementByCSS no es un string');
+		if (!is_string($id)) throw new RuntimeException('El argumento de getElementById no es un string');
 		if ($this->atributos['id'] === $id) return $this;
 		foreach ($this->elementos as $elemento_actual) {
 			$busqueda = $elemento_actual->getElementByID($id);
