@@ -52,6 +52,14 @@ class element {
 		foreach ($valor as $el_valor) if (!in_array($el_valor,$this->clases)) $this->clases[] = $el_valor;
 	}
 
+	protected function delAtributo($valor) {
+		if(isset($this->atributos[$valor])) {
+			unset($this->atributos[$valor]);
+		} else {
+			throw new RuntimeException('Este elemento no tiene ese atributo');
+		}
+	}
+
 	private function addStyle($valor) {
 		if (!is_array($valor)) throw new RuntimeException('El argumento de addStyle no es un arreglo');
 		foreach ($valor as $llave => $value) {
