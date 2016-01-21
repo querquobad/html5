@@ -104,7 +104,12 @@ class element {
 
 	private function addText($texto) {// OJO para agregar texto invoca $obj->addAtributo('_text','El texto a ser agregado')
 		if (!is_string($texto)) throw new RuntimeException('No se puede agregar un texto que no es un string');
-		$this->texto .= $texto;
+		if (is_a($this,'input') && $this->self_close) {
+			$this->addLabel($texto);
+		} else {
+			if($this->self_close) throw new RuntimeException('Este elemento no puede tener texto. ('.$this-getAtributo('tag').')');
+			$this->texto .= $texto;
+		}
 	}
 
 	public function getElementByTag($tag) {
