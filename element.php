@@ -11,6 +11,7 @@ class element {
 	private $elementos = array();
 	private $self_close = false;
 	private $texto = '';
+	private $text_after = '';
 
 	function __construct($atts = array()) {
 		foreach($atts as $att => $valor) {
@@ -34,6 +35,7 @@ class element {
 		if ($att == 'class') $this->addClass($valor);
 		else if ($att == 'style') $this->addStyle($valor);
 		else if ($att == '_text') $this->addText($valor);
+		else if ($att == '_textAfter') $this->appendText($valor);
 		else {
 			if (array_key_exists($att,$this->atributos))
 				error_log("Sobreescribiendo el valor del atributo $att"); //throw new RuntimeException('Ese atributo ya existe');
@@ -107,6 +109,11 @@ class element {
 				$retval .= htmlentities($this->texto,ENT_HTML5);
 			}
 			foreach ($this->elementos as $elemento_actual) $retval .= $elemento_actual->render();
+			if (htmlentities($this->text_after,ENT_HTML5) == "") {
+				$retval .= htmlentities(utf8_encode($this->text_after),ENT_HTML5);
+			} else {
+				$retval .= htmlentities($this->text_after,ENT_HTML5);
+			}
 			$retval .= '</'.$this->tag.'>';
 		}
 		return $retval;
@@ -126,6 +133,12 @@ class element {
 			if($this->self_close) throw new RuntimeException('Este elemento no puede tener texto. ('.$this-getAtributo('tag').')');
 			$this->texto .= $texto;
 		}
+	}
+
+	private function appendText($texto) {// OJO para agregar texto invoca $obj->addAtributo('_textAfter','El texto a ser agregado')
+		if (!is_string($texto)) throw new RuntimeException('No se puede agregar un texto que no es un string');
+		if ($this->self_close) throw new RuntimeException('Este elemento no puede tener texto. ('.$this-getAtributo('tag').')');
+		$this->text_after .= $texto;
 	}
 
 	public function getElementByTag($tag) {
