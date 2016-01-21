@@ -52,6 +52,14 @@ class element {
 		foreach ($valor as $el_valor) if (!in_array($el_valor,$this->clases)) $this->clases[] = $el_valor;
 	}
 
+	protected function delClass($valor) {
+		if(in_array($valor,$this->clases)) {
+			foreach($this->clases as $key => $value) {
+				if($value === $valor) unset($this->clases[$key]);
+			}
+		}
+	}
+
 	protected function delAtributo($valor) {
 		if(isset($this->atributos[$valor])) {
 			unset($this->atributos[$valor]);
