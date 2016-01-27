@@ -54,6 +54,13 @@ class input extends element {
 		return $this->div->render();
 	}
 
+	public function addElement($element) {
+		/*
+		 * Aunque por regla los inputs no tienen elementos anidados en el caso de los selects, si aplica y en caso en que en el futuro exista otro
+		 * Aqui lo mandamos para el input ya que esta clase realmente no sabe como tener objetos anidados.
+		 */
+		$this->input->addElement($element);
+	}
 }
 
 ?>

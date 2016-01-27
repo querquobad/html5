@@ -7,6 +7,7 @@ class select extends input {
 		if (isset($att['tag']) && $att['tag'] !== 'select')
 			throw new RuntimeException('No se puede crear un elemento '.$att['tag'].' con la clase select');
 		$att['tag'] = 'select';
+		parent::__construct($att);
 		if (isset($att['options']) && is_array($att['options'])) {
 			try {
 				foreach($att['options'] as $key_actual => $option_actual) $this->addElement(new element(array(
@@ -20,7 +21,6 @@ class select extends input {
 			}
 			unset($att['options']);
 		}
-		parent::__construct($att);
 	}
 }
 
