@@ -48,6 +48,14 @@ class element {
 		if (isset($this->atributos[$at])) return $this->atributos[$at];
 	}
 
+	protected function delAtributo($valor) {
+		if(isset($this->atributos[$valor])) {
+			unset($this->atributos[$valor]);
+		} else {
+			throw new RuntimeException('Este elemento no tiene ese atributo');
+		}
+	}
+
 	private function addClass($valor) {
 		if (is_string($valor)) $valor = explode(' ',$valor);
 		if (!is_array($valor)) throw new RuntimeException('El argumento de addClass no es un arreglo, o cadena delimitada por espacios');
@@ -59,14 +67,6 @@ class element {
 			foreach($this->clases as $key => $value) {
 				if($value === $valor) unset($this->clases[$key]);
 			}
-		}
-	}
-
-	protected function delAtributo($valor) {
-		if(isset($this->atributos[$valor])) {
-			unset($this->atributos[$valor]);
-		} else {
-			throw new RuntimeException('Este elemento no tiene ese atributo');
 		}
 	}
 
