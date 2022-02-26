@@ -27,7 +27,7 @@ class checkbox extends element {
 		unset($att['inline']);
 		foreach ($this->opts as $opt_actual) {
 			foreach($att as $k => $v) {
-				$opt_actual->getElementByTag('input')->addAtributo($k,$v);
+				$opt_actual->getElementByTag('input')->addAttribute($k,$v);
 			}
 		}
 	}
@@ -38,7 +38,7 @@ class checkbox extends element {
 			 * Si nada mas es una opción o especificamos que es inline le agregamos la clase checkbox-inline
 			 * a los labels (que en bootstrap son los contenedores de los checkboxes)
 			 */
-			foreach($this->opts as $opt_actual) $opt_actual->addAtributo('class','checkbox-inline');
+			foreach($this->opts as $opt_actual) $opt_actual->addAttribute('class','checkbox-inline');
 		}
 		$this->div = new element(array(
 			'tag' => 'div',

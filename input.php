@@ -14,8 +14,8 @@ class input extends element {
 		 * Creamos el input "real" y le quitamos el atributo label en caso que lo tenga
 		 */
 		$this->input = new element($att);
-		$this->input->addAtributo('class','form-control');
-		if($this->input->getAtributo('label')) $this->input->delAtributo('label');
+		$this->input->addAttribute('class','form-control');
+		if($this->input->getAttribute('label')) $this->input->delAttribute('label');
 		if (isset($att['label']) && is_string($att['label'])) {
 			$this->addLabel($att['label']);
 		} else if (isset($att['label']) && is_a($att['label'],'element')) {
@@ -34,13 +34,13 @@ class input extends element {
 	}
 
 	protected function addLabel($label) {
-		if ($this->input->getAtributo('id') == null || $this->input->getAtributo('id') === false)
+		if ($this->input->getAttribute('id') == null || $this->input->getAttribute('id') === false)
 			throw new RuntimeException('No se puede agregar una etiqueta a un elemento sin ID');
-		if ($this->label != null) error_log('Sobreescribiendo la etiqueta del elemento '.$this->input->getAtributo('id'));
+		if ($this->label != null) error_log('Sobreescribiendo la etiqueta del elemento '.$this->input->getAttribute('id'));
 		$this->label = new element(array(
 			'tag' => 'label',
 			'_text' => $label,
-			'for' => $this->input->getAtributo('id')
+			'for' => $this->input->getAttribute('id')
 		));
 	}
 

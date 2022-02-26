@@ -8,10 +8,10 @@ class form extends element {
 		$att['tag'] = 'form';
 		if (isset($att['tipo']) && ($att['tipo'] === 'horizontal' || $att['tipo'] === 'inline')) {
 			$this->tipo = $att['tipo'];
-			$this->addAtributo('class','form-'.$att['tipo']);
+			$this->addAttribute('class','form-'.$att['tipo']);
 		}
 		if(isset($att['tipo'])) unset($att['tipo']);
-		$this->addAtributo('role','form');
+		$this->addAttribute('role','form');
 		parent::__construct($att);
 	}
 }
