@@ -34,8 +34,8 @@ class element {
 	public function addAttribute($att,$valor) {
 		if ($att == 'class') $this->addClass($valor);
 		else if ($att == 'style') $this->addStyle($valor);
-		else if ($att == '_text') $this->addText($valor);
-		else if ($att == '_textAfter') $this->appendText($valor);
+		else if ($att == 'text') $this->addText($valor);
+		else if ($att == 'textAfter') $this->appendText($valor);
 		else {
 			if (array_key_exists($att,$this->attributes))
 				error_log("Sobreescribiendo el valor del atributo $att"); //throw new RuntimeException('Ese atributo ya existe');
@@ -109,12 +109,12 @@ class element {
 				$retval .= htmlentities($this->text,ENT_HTML5);
 			}
 			foreach ($this->elements as $elemento_actual) $retval .= $elemento_actual->render();
-			if (htmlentities($this->text_after,ENT_HTML5) == "") {
-				$retval .= htmlentities(utf8_encode($this->text_after),ENT_HTML5);
-			} else {
-				$retval .= htmlentities($this->text_after,ENT_HTML5);
-			}
 			$retval .= '</'.$this->tag.'>';
+		}
+		if (htmlentities($this->text_after,ENT_HTML5) == "") {
+			$retval .= htmlentities(utf8_encode($this->text_after),ENT_HTML5);
+		} else {
+			$retval .= htmlentities($this->text_after,ENT_HTML5);
 		}
 		return $retval;
 	}
